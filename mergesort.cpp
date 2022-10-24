@@ -1,83 +1,72 @@
-#include <stdio.h>
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
+void merge(int * a, int si, int mid , int ei)
+ { 
 
+     int  p[100];
+     
+    int p1,p2;
+    p1=si;
+    p2= mid+1;
+    int i =0;
+    while (p1<=mid && p2<= ei)
+    {
+        if(a[p1]<a[p2])
+        {
+            p[i++] = a[p1++];
+        }
+        else 
+        {
+            p[i] = a[p2++];
+            
+        }
+    }
+    while(p1<=mid)
+    {
+        p[i++]= a[p1++];
+    }
+    while(p2<=ei)
+    {
+        p[i++] = a[p2++];
+    }
+    i=0;
+    for(int j=si; j<=ei; j++ )
+    {
+        a[j]=p[i++];
+        
+    }
 
-/* Function to print an array */
-void printArray(int arr[], int size)
+ }
+void merge_sort(int a[] , int si , int ei)
 {
-    int i;
-    for (i=0; i < size; i++)
-        printf("%d ", arr[i]);
-    printf("\n");
+    if(si >=ei )
+    {
+        return;
+    }
+    int mid;
+    mid = ((si+ei)/2);
+    merge_sort(a, si , mid);
+    merge_sort(a, mid+1  , ei);
+    
+    merge(a , si , mid ,  ei);
+  
 }
-
-
-// } Driver Code Ends
-class Solution
-{
-    public:
-    void merge(int arr[], int l, int m, int r)
-       {
-            // Your code here
-            int *merged=new int[r-l+1];
-            int indx1=l;
-            int indx2=m+1;
-            int k=0;
-            while(indx1<=m and indx2<=r){
-                if(arr[indx1]<arr[indx2]){
-                    merged[k++]=arr[indx1++];
-                }
-                else{
-                    merged[k++]=arr[indx2++];
-                }
-            }
-            while(indx1<=m){
-                merged[k++]=arr[indx1++];
-            }
-            while(indx2<=r){
-                merged[k++]=arr[indx2++];
-            }
-            for(int i=0,j=l;i<r-l+1;i++,j++){
-               arr[j]= merged[i];
-            }
-            delete(merged);
-       }
-       public:
-       void mergeSort(int arr[], int l, int r)
-       {
-           //code here
-           if(l>=r){
-               return;
-           }
-           int mid=(l+r)/2;
-           mergeSort(arr,l,mid);
-           mergeSort(arr,mid+1,r);
-           merge(arr,l,mid,r);
-       }
-};
-
-//{ Driver Code Starts.
-
 
 int main()
 {
-    int n,T,i;
-
-    scanf("%d",&T);
-
-    while(T--){
-    
-    scanf("%d",&n);
-    int arr[n+1];
-    for(i=0;i<n;i++)
-      scanf("%d",&arr[i]);
-
-    Solution ob;
-    ob.mergeSort(arr, 0, n-1);
-    printArray(arr, n);
+    int i;
+    int a[5];
+    cout<<"enter array elements"<<endl;
+    for( i=0; i<5; i++)
+    {
+        cin>>a[i];
+        }
+        merge_sort(a,0,5);
+       for ( i = 0; i<=4 ; i++)
+    {
+        cout<< a[i]<<endl;
     }
+
     return 0;
 }
-// } Driver Code Ends
