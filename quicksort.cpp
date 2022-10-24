@@ -1,57 +1,72 @@
-#include <stdio.h>
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
-
-/* Function to print an array */
-void printArray(int arr[], int size)
+void swapp(int &a, int &b)
 {
-    int i;
-    for (i=0; i < size; i++)
-        printf("%d ", arr[i]);
-    printf("\n");
+    int temp;
+    temp = a;
+    a = b;
+    b = temp;
+}
+int partition(int arr[], int s, int e)
+{
+    int count = 0;
+    for (int a = s+1 ; a <= e; a++)
+    {
+        if (arr[a] <= arr[s])
+        {
+            count++;
+        }
+    }
+    swapp(arr[s], arr[s+count]);
+
+    int i, j;
+    i = s;
+    j = e;
+    while (i < count && j > count)
+    {
+        if(arr[i] <= arr[s+count] || arr[j] > arr[s +count])
+        {
+            if (arr[i] <= arr[s+ count])
+        {
+            i++;
+        }
+         if (arr[j] > arr[s + count])
+        {
+            j--;
+        }
+        }
+        else
+        {
+            swapp(arr[i++], arr[j--]);
+        }
+    }
+    return s+count;
 }
 
-// } Driver Code Ends
-class Solution
+void quicksort(int arr[], int s, int e)
 {
-    public:
-    //Function to sort an array using quick sort algorithm.
-    void quickSort(int arr[], int low, int high)
+    if (s >= e)
     {
-        // code here
-        if(low>high)return;
-        int pi=partition(arr,low,high);
-        quickSort(arr,low,pi-1);
-        quickSort(arr,pi+1,high);
+        return;
     }
-    
-    public:
-    int partition (int arr[], int low, int high)
-    {
-       // Your code here
-       int pivot=arr[high],i=(low-1);
-       for(int j=low;j<high;j++){
-           if(arr[j]<pivot)i++,swap(arr[i],arr[j]);
-       }
-       swap(arr[i+1],arr[high]);
-       return i+1;
-    }
-};
-
-
-//{ Driver Code Starts.
+    int c;
+    c = partition(arr, s, e);
+    quicksort(arr, s, c - 1);
+    quicksort(arr, c + 1, e);
+}
 int main()
 {
-    int arr[1000],n,T,i;
-    scanf("%d",&T);
-    while(T--){
-    scanf("%d",&n);
-    for(i=0;i<n;i++)
-      scanf("%d",&arr[i]);
-      Solution ob;
-    ob.quickSort(arr, 0, n-1);
-    printArray(arr, n);
+    int arr[5];
+    cout<<"enter elementd"<<endl;
+    for (int i = 0; i < 5; i++)
+    {
+        cin >> arr[i];
+    }
+    quicksort(arr, 0, 4);
+    cout<<"sorted"<<endl;
+    for (int i = 0; i < 5; i++)
+    {
+        cout << arr[i]<<" ";
     }
     return 0;
 }
-// } Driver Code Ends
